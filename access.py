@@ -29,10 +29,14 @@ class Blame(object):
         file_paths = utils.traverse(self.repo.name)
         for file_ in file_paths:
             print(file_)
+            dicts = []
             for line in utils.get_blame(file_):
                 new_dict = utils.line_to_dict(line)
                 self.expand_dict(new_dict, file_)
-                yield new_dict
+                dicts.append(new_dict)
+            dicts = self.merge(dicts)
+            for d in dicts:
+                yield d
 
     def get(self):
         return [d for d in self]
@@ -42,6 +46,16 @@ class Blame(object):
         d['path'] = path_parts[:-1]
         d['fname'] = path_parts[-1]
 
+    def merge(self, dict_list):
+        merged = {}
+        for d in dict_list:
+            c = merged.get(d['uname'], {k: v for k, v in d.items() if k != 'code'})
+            code = c.get('code', [])
+            code.append(d['code'])
+            c['code'] = code
+            merged[c['uname']] = c
+        print(merged)
+        return [d for k, d in merged.items()]
 
 if __name__ == '__main__':
     from pprint import pprint
