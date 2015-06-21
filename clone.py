@@ -1,22 +1,61 @@
+import os
+import re
+from datetime import datetime
 from sys import argv
-from os import system
+
 
 from traverser import TraverseIterator
 
+TEMP_FILENAME = '.temp'
+
 
 def clone_repo(url):
-    system('git clone {}'.format(url))
+    os.system('git clone {}'.format(url))
 
 
 def traverse(path):
     ti = TraverseIterator(path)
-    for file_ in ti:
-        print(file_)
+    return ti
 
+
+def get_blame(path):
+    directory = file_.split('/')[0]
+    path = '/'.join(file_.split('/')[1:])
+    # print('DIR: {} PATH: {}'.format(directory, path))
+
+    # into projects directory
+    os.chdir(directory)
+    os.system('pwd')
+    os.system('git blame {} > {}'.format(path, TEMP_FILENAME))
+    
+    # Get text from temp file
+    with open(TEMP_FILENAME, 'r') as f:
+        lines = f.readlines()
+
+    # out of projects directory
+    os.system('rm {}'.format(TEMP_FILENAME))
+    os.chdir('..')
+    return lines
+
+
+def line_to_dict(line):
+    LINE_PATTERN = re.compile('\^?([\w\d]+)\s.*\s?\((.+?)\s+([\d[-]+\s[\d:]+)\s-\d+[\s\d]*\)\s(.*)')
+    DATE_PATTERN = '%Y-%m-%d %H:%M:%S'
+    match = re.match(LINE_PATTERN, line)
+    return {
+        'commit': match.group(1),
+        'uname': match.group(2),
+        'datetime': datetime.strptime(match.group(3), DATE_PATTERN),
+        'code': match.group(4),
+    }
 
 if __name__ == "__main__":
     url = argv[1]
     name = url.split('/')[-1] or url.split('/')[-2]
-    print(name)
+    # print(name)
     clone_repo(url)
-    traverse(name)
+    ti = traverse(name)
+    for file_ in ti:
+         blame_lines = map(line_to_dict, get_blame(file_))
+         if blame_lines:
+             print(blame_lines[0])
