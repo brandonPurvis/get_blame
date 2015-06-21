@@ -25,18 +25,20 @@ def traverse(dir_path):
 def get_blame(path):
     """ Return the lines of a files `git blame`. 
     """
-    directory = file_.split('/')[0]
-    path = '/'.join(file_.split('/')[1:])
+    directory = path.split('/')[0]
+    path = '/'.join(path.split('/')[1:])
     # print('DIR: {} PATH: {}'.format(directory, path))
 
     # into projects directory
     os.chdir(directory)
     os.system('pwd')
     os.system('git blame {} > {}'.format(path, TEMP_FILENAME))
-    
-    # Get text from temp file
-    with open(TEMP_FILENAME, 'r') as f:
-        lines = f.readlines()
+    try:
+        # Get text from temp file
+        with open(TEMP_FILENAME, 'r') as f:
+            lines = f.readlines()
+    except IOError:
+        return []
 
     # out of projects directory
     os.system('rm {}'.format(TEMP_FILENAME))
