@@ -11,7 +11,7 @@ def reset_index():
     search.create_index()
 
 
-def main(repo_url):
+def run(repo_url):
     with access.Repository(url) as repo:
         blame = access.Blame(repo)
         for d in blame:
@@ -23,4 +23,4 @@ def main(repo_url):
 if __name__ == '__main__':
     url = argv[1]
     print(url)
-    main(url)
+    run(url)
