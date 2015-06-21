@@ -13,12 +13,14 @@ def clone_repo(url):
     os.system('git clone {}'.format(url))
 
 
-def traverse(path):
-    ti = TraverseIterator(path)
+def traverse(dir_path):
+    ti = TraverseIterator(dir_path)
     return ti
 
 
 def get_blame(path):
+    """ Return the lines of a files `git blame`. 
+    """
     directory = file_.split('/')[0]
     path = '/'.join(file_.split('/')[1:])
     # print('DIR: {} PATH: {}'.format(directory, path))
@@ -48,6 +50,7 @@ def line_to_dict(line):
         'datetime': datetime.strptime(match.group(3), DATE_PATTERN),
         'code': match.group(4),
     }
+
 
 if __name__ == "__main__":
     url = argv[1]
