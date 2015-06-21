@@ -12,7 +12,7 @@ def reset_index():
 
 
 def run(repo_url):
-    with access.Repository(url) as repo:
+    with access.Repository(repo_url) as repo:
         blame = access.Blame(repo)
         for d in blame:
             if d['fname'].split('.')[-1] in FORMATS:
