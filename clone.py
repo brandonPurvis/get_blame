@@ -13,6 +13,10 @@ def clone_repo(url):
     os.system('git clone {}'.format(url))
 
 
+def remove_repo(name):
+    os.system('rm -rf {}'.format(name))
+
+
 def traverse(dir_path):
     ti = TraverseIterator(dir_path)
     return ti
