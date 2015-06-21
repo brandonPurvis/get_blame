@@ -31,15 +31,24 @@ class Blame():
         for file_ in file_paths:
             print(file_)
             for line in utils.get_blame(file_):
-                dicts.append(utils.line_to_dict(line))
+                new_dict = utils.line_to_dict(line)
+                self.expand_dict(new_dict, file_)
+                dicts.append(new_dict)
         return dicts
 
 
+    def expand_dict(self, d, filepath):
+        path_parts = filepath.split('/')
+        d['path'] = path_parts[:-1]
+        d['fname'] = path_parts[-1]
+
+
 if __name__ == '__main__':
+    from pprint import pprint
     url = 'http://github.com/CenterForOpenScience/osf.io/'
     import os
     with Repository(url) as repo:
         print(repo)
         blame = Blame(repo)
-        print(blame.get())
+        pprint(blame.get())
         os.system('ls')
