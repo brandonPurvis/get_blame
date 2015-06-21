@@ -24,8 +24,8 @@ class Repository():
 class Blame():
     def __init__(self, repo):
         self.repo = repo
-    
-    def get(self):
+
+    def __iter__(self):
         file_paths = utils.traverse(self.repo.name)
         dicts = []
         for file_ in file_paths:
@@ -33,9 +33,10 @@ class Blame():
             for line in utils.get_blame(file_):
                 new_dict = utils.line_to_dict(line)
                 self.expand_dict(new_dict, file_)
-                dicts.append(new_dict)
-        return dicts
+                yield new_dict
 
+    def get(self):
+        return [d for d in self]
 
     def expand_dict(self, d, filepath):
         path_parts = filepath.split('/')
@@ -50,5 +51,5 @@ if __name__ == '__main__':
     with Repository(url) as repo:
         print(repo)
         blame = Blame(repo)
-        pprint(blame.get())
+        pprint(blame.get()[:5])
         os.system('ls')
