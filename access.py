@@ -1,7 +1,7 @@
 import utils
 
 
-class Repository():
+class Repository(object):
     def __init__(self, url):
         url_parts = url.split('/')
         self.url = url
@@ -21,7 +21,7 @@ class Repository():
         return repr(self)
 
 
-class Blame():
+class Blame(object):
     def __init__(self, repo):
         self.repo = repo
 
