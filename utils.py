@@ -27,7 +27,6 @@ def get_blame(path):
     """
     directory = path.split('/')[0]
     path = '/'.join(path.split('/')[1:])
-    # print('DIR: {} PATH: {}'.format(directory, path))
 
     # into projects directory
     os.chdir(directory)
