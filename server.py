@@ -7,6 +7,7 @@ from search import INDEX
 def on_post(data):
     run_blame(data)
 
+
 class Handler(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)

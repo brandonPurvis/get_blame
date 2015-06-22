@@ -25,4 +25,3 @@ if __name__ == '__main__':
     walker = TraverseIterator('/Users/brandonpurvis/Desktop/osf.io/')
     for path in walker:
         print(path)
-
