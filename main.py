@@ -16,8 +16,8 @@ def run(repo_url):
         blame = access.Blame(repo)
         for d in blame:
             if d['fname'].split('.')[-1] in FORMATS:
-                print(d)
                 search.add(d)
+    print('Done')
 
 
 if __name__ == '__main__':

@@ -28,7 +28,6 @@ class Blame(object):
     def __iter__(self):
         file_paths = utils.traverse(self.repo.name)
         for file_ in file_paths:
-            print(file_)
             for line in utils.get_blame(file_):
                 new_dict = utils.line_to_dict(line)
                 self.expand_dict(new_dict, file_)
