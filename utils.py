@@ -1,10 +1,13 @@
+import logging
 import os
 import re
 from datetime import datetime
 from sys import argv
 
-
 from traverser import TraverseIterator
+
+logger = logging.Logger(__name__)
+
 
 TEMP_FILENAME = '.temp'
 
@@ -49,12 +52,21 @@ def line_to_dict(line):
     LINE_PATTERN = re.compile('\^?([\w\d]+)\s.*\s?\((.+?)\s+([\d[-]+\s[\d:]+)\s-\d+[\s\d]*\)\s(.*)')
     DATE_PATTERN = '%Y-%m-%d %H:%M:%S'
     match = re.match(LINE_PATTERN, line)
-    return {
-        'commit': match.group(1),
-        'uname': match.group(2),
-        'datetime': datetime.strptime(match.group(3), DATE_PATTERN),
-        'code': match.group(4),
-    }
+    try:
+        return {
+            'commit': match.group(1),
+            'uname': match.group(2),
+            'datetime': datetime.strptime(match.group(3), DATE_PATTERN),
+            'code': match.group(4),
+        }
+    except ValueError:
+        logger.warning('Failed on {}'.format(line))
+        return {
+            'commit': match.group(1),
+            'uname': match.group(2),
+            'datetime': None,
+            'code': match.group(4),
+        }
 
 
 if __name__ == "__main__":
