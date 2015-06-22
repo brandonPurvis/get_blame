@@ -11,9 +11,9 @@ def reset_index():
     search.create_index()
 
 
-def run(repo_url):
+def run(repo_url, merged=None):
     with access.Repository(repo_url) as repo:
-        blame = access.Blame(repo)
+        blame = access.Blame(repo, merged)
         for d in blame:
             if d['fname'].split('.')[-1] in FORMATS:
                 search.add(d)

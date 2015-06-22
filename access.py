@@ -22,8 +22,9 @@ class Repository(object):
 
 
 class Blame(object):
-    def __init__(self, repo):
+    def __init__(self, repo, merged=False):
         self.repo = repo
+        self.merged = merged
 
     def __iter__(self):
         file_paths = utils.traverse(self.repo.name)
@@ -33,7 +34,8 @@ class Blame(object):
                 new_dict = utils.line_to_dict(line)
                 self.expand_dict(new_dict, file_)
                 dicts.append(new_dict)
-            dicts = self.merge(dicts)
+            if self.merged:
+                dicts = self.merge(dicts)
             for d in dicts:
                 yield d
 
