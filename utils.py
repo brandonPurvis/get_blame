@@ -76,6 +76,6 @@ if __name__ == "__main__":
     clone_repo(url)
     ti = traverse(name)
     for file_ in ti:
-         blame_lines = map(line_to_dict, get_blame(file_))
-         if blame_lines:
-             print(blame_lines[0])
+        blame_lines = map(line_to_dict, get_blame(file_))
+        if blame_lines:
+            print(blame_lines[0])
