@@ -3,7 +3,7 @@
 ## What
 Makes a repository git blame, searchable.
 
-## How
+## How To...
 ### Install
  * get elasticsearch
  * clone this repository
@@ -11,4 +11,5 @@ Makes a repository git blame, searchable.
  
 ### Use
   * follow install instructions
-  * `invoke index_repo <url_or_repo>` to put that repo's data into elasticsearch. 
+  * `invoke index_repo <url_or_repo>` to put that repo's data into elasticsearch.
+  * Optional: clone [seeblame](http://github.com/brandonPurvis/see_blame)
