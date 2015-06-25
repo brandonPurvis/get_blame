@@ -12,4 +12,4 @@ Makes a repository git blame, searchable.
 ### Use
   * follow install instructions
   * `invoke index_repo <url_or_repo>` to put that repo's data into elasticsearch.
-  * Optional: clone [seeblame](http://github.com/brandonPurvis/see_blame)
+  * Optional: clone [seeblame](http://github.com/brandonPurvis/see_blame) for a Django frontend.
